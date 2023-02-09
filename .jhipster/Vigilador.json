@@ -1,0 +1,33 @@
+{
+  "changelogDate": "20230120172813",
+  "dto": "mapstruct",
+  "fields": [],
+  "jpaMetamodelFiltering": true,
+  "name": "Vigilador",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "categoria",
+      "relationshipName": "categoria",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "objetivo",
+      "relationshipName": "objetivo",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "id": true,
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "vigilador",
+      "ownerSide": true,
+      "relationshipName": "user",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

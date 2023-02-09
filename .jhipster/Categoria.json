@@ -1,0 +1,33 @@
+{
+  "changelogDate": "20230120131131",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "hourValue",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "extra50",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "extra100",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "totalHour",
+      "fieldType": "Double"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Categoria",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceClass"
+}

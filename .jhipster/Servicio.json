@@ -1,0 +1,36 @@
+{
+  "changelogDate": "20230120173043",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "startDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Servicio",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "vigilador",
+      "relationshipName": "vigilador",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": ["required"]
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "objetivo",
+      "relationshipName": "objetivo",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": ["required"]
+    }
+  ],
+  "service": "serviceClass"
+}

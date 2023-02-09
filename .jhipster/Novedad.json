@@ -1,0 +1,41 @@
+{
+  "changelogDate": "20230120173319",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "texto",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "picture",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "entregar",
+      "fieldType": "Entregar",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "VIGILADOR,OBJETIVO,TODOS"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Novedad",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "vigilador",
+      "relationshipName": "vigilador",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "objetivo",
+      "relationshipName": "objetivo",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

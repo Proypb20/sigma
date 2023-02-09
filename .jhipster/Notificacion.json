@@ -1,0 +1,33 @@
+{
+  "changelogDate": "20230120184240",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "status",
+      "fieldType": "Status",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "Pendiente,Leido"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Notificacion",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "novedad",
+      "relationshipName": "novedad",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": ["required"]
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "vigilador",
+      "relationshipName": "vigilador",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": ["required"]
+    }
+  ],
+  "service": "serviceClass"
+}
