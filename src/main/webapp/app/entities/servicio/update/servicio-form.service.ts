@@ -35,6 +35,7 @@ type ServicioFormGroupContent = {
   startDate: FormControl<ServicioFormRawValue['startDate']>;
   endDate: FormControl<ServicioFormRawValue['endDate']>;
   vigilador: FormControl<ServicioFormRawValue['vigilador']>;
+  objetivo: FormControl<ServicioFormRawValue['objetivo']>;
 };
 
 export type ServicioFormGroup = FormGroup<ServicioFormGroupContent>;
@@ -59,6 +60,9 @@ export class ServicioFormService {
       }),
       endDate: new FormControl(servicioRawValue.endDate),
       vigilador: new FormControl(servicioRawValue.vigilador, {
+        validators: [Validators.required],
+      }),
+      objetivo: new FormControl(servicioRawValue.objetivo, {
         validators: [Validators.required],
       }),
     });

@@ -204,8 +204,8 @@ public class NotificacionResource {
     }
 
     @PostMapping("/notificacions/read")
-    public ResponseEntity<NotificacionDTO> readNotificacion(@Valid @RequestBody Long id) {
-        Optional<Notificacion> notif = notificacionRepository.findById(id);
+    public ResponseEntity<NotificacionDTO> readNotificacion(@Valid @RequestBody NotificacionDTO notificacionDTO) {
+        Optional<Notificacion> notif = notificacionRepository.findById(notificacionDTO.getId());
         if (!notif.isPresent()) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }

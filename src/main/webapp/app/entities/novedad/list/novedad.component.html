@@ -1,6 +1,6 @@
 <div>
   <h2 id="page-heading" data-cy="NovedadHeading">
-    <span>Novedads</span>
+    <span>Novedades</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
@@ -11,11 +11,21 @@
       <button
         id="jh-create-entity"
         data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-novedad"
+        class="btn btn-primary jh-create-entity create-novedad me-2"
         [routerLink]="['/novedad/new']"
       >
         <fa-icon icon="plus"></fa-icon>
         <span> Crear nuevo Novedad </span>
+      </button>
+
+      <button
+        id="jh-create-entity-back"
+        class="btn btn-danger float-right jh-create-entity create-novedad"
+        (click)="Cancel()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-left'"></fa-icon>
+        <span> Volver</span>
       </button>
     </div>
   </h2>

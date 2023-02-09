@@ -13,5 +13,11 @@
                                  constraintName="fk_servicio__vigilador_id"
                                  referencedColumnNames="id"
                                  referencedTableName="vigilador"/>
+
+        <addForeignKeyConstraint baseColumnNames="objetivo_id"
+                                 baseTableName="servicio"
+                                 constraintName="fk_servicio__objetivo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="objetivo"/>
     </changeSet>
 </databaseChangeLog>

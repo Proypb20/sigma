@@ -28,6 +28,12 @@
             <a [routerLink]="['/vigilador', servicio.vigilador.id, 'view']">{{ servicio.vigilador.id }}</a>
           </div>
         </dd>
+        <dt><span>Objetivo</span></dt>
+        <dd>
+          <div *ngIf="servicio.objetivo">
+            <a [routerLink]="['/objetivo', servicio.objetivo.id, 'view']">{{ servicio.objetivo.name }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

@@ -11,11 +11,20 @@
       <button
         id="jh-create-entity"
         data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-categoria"
+        class="btn btn-primary jh-create-entity create-categoria me-2"
         [routerLink]="['/categoria/new']"
       >
         <fa-icon icon="plus"></fa-icon>
         <span> Crear nuevo Categoria </span>
+      </button>
+      <button
+        id="jh-create-entity-back"
+        class="btn btn-danger float-right jh-create-entity create-categoria"
+        (click)="Cancel()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-left'"></fa-icon>
+        <span> Volver</span>
       </button>
     </div>
   </h2>
@@ -83,7 +92,7 @@
           <td>{{ categoria.totalHour }}</td>-->
           <td class="text-end">
             <div class="btn-group">
-              <button
+              <!--<button
                 type="submit"
                 [routerLink]="['/categoria', categoria.id, 'view']"
                 class="btn btn-info btn-sm"
@@ -91,7 +100,7 @@
               >
                 <fa-icon icon="eye"></fa-icon>
                 <span class="d-none d-md-inline">Vista</span>
-              </button>
+              </button>-->
 
               <button
                 type="submit"

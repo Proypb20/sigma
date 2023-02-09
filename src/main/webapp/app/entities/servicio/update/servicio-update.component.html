@@ -64,6 +64,24 @@
         <div *ngIf="editForm.get(['vigilador'])!.invalid && (editForm.get(['vigilador'])!.dirty || editForm.get(['vigilador'])!.touched)">
           <small class="form-text text-danger" *ngIf="editForm.get(['vigilador'])?.errors?.required"> Este campo es obligatorio. </small>
         </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_objetivo">Objetivo</label>
+          <select
+            class="form-control"
+            id="field_objetivo"
+            data-cy="objetivo"
+            name="objetivo"
+            formControlName="objetivo"
+            [compareWith]="compareObjetivo"
+          >
+            <option *ngIf="!editForm.get('objetivo')!.value" [ngValue]="null" selected></option>
+            <option [ngValue]="objetivoOption" *ngFor="let objetivoOption of objetivosSharedCollection">{{ objetivoOption.name }}</option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['objetivo'])!.invalid && (editForm.get(['objetivo'])!.dirty || editForm.get(['objetivo'])!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get(['objetivo'])?.errors?.required"> Este campo es obligatorio. </small>
+        </div>
       </div>
 
       <div>

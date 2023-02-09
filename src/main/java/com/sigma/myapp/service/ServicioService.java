@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -89,6 +91,15 @@ public class ServicioService {
     }
 
     /**
+     * Get all the servicios with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<ServicioDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return servicioRepository.findAllWithEagerRelationships(pageable).map(servicioMapper::toDto);
+    }
+
+    /**
      * Get one servicio by id.
      *
      * @param id the id of the entity.
@@ -97,7 +108,7 @@ public class ServicioService {
     @Transactional(readOnly = true)
     public Optional<ServicioDTO> findOne(Long id) {
         log.debug("Request to get Servicio : {}", id);
-        return servicioRepository.findById(id).map(servicioMapper::toDto);
+        return servicioRepository.findOneWithEagerRelationships(id).map(servicioMapper::toDto);
     }
 
     /**

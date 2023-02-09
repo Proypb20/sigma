@@ -21,6 +21,8 @@ public interface NotificacionMapper extends EntityMapper<NotificacionDTO, Notifi
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     @Mapping(target = "texto", source = "texto")
+    @Mapping(target = "picture", source = "picture")
+    @Mapping(target = "pictureContentType", source = "pictureContentType")
     NovedadDTO toDtoNovedadId(Novedad novedad);
 
     @Named("vigiladorId")

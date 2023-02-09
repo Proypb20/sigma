@@ -20,6 +20,8 @@ export class VigiladorComponent implements OnInit {
   predicate = 'id';
   ascending = true;
 
+  oId = 0;
+
   constructor(
     protected vigiladorService: VigiladorService,
     protected activatedRoute: ActivatedRoute,
@@ -31,6 +33,7 @@ export class VigiladorComponent implements OnInit {
   trackId = (_index: number, item: IVigilador): number => this.vigiladorService.getVigiladorIdentifier(item);
 
   ngOnInit(): void {
+    this.oId = history.state?.oId;
     this.load();
   }
 
@@ -60,6 +63,10 @@ export class VigiladorComponent implements OnInit {
 
   navigateToWithComponentValues(): void {
     this.handleNavigation(this.predicate, this.ascending);
+  }
+
+  Cancel(): void {
+    window.history.back();
   }
 
   protected loadFromBackendWithRouteInformations(): Observable<EntityArrayResponseType> {
@@ -93,6 +100,7 @@ export class VigiladorComponent implements OnInit {
     const queryObject = {
       eagerload: true,
       sort: this.getSortQueryParam(predicate, ascending),
+      'objetivoId.equals': this.oId,
     };
     return this.vigiladorService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }

@@ -11,11 +11,21 @@
       <button
         id="jh-create-entity"
         data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-notificacion"
+        class="btn btn-primary jh-create-entity create-notificacion me-2"
         [routerLink]="['/notificacion/new']"
       >
         <fa-icon icon="plus"></fa-icon>
         <span> Crear nueva Notificacion </span>
+      </button>
+
+      <button
+        id="jh-create-entity-back"
+        class="btn btn-danger float-right jh-create-entity create-notificacion"
+        (click)="Cancel()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-left'"></fa-icon>
+        <span> Volver</span>
       </button>
     </div>
   </h2>
@@ -80,10 +90,11 @@
                 data-cy="entityDetailsButton"
               >
                 <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">Vista</span>
+                <span class="d-none d-md-inline">Abrir</span>
               </button>
 
               <button
+                *jhiHasAnyAuthority="'ROLE_ADMIN'"
                 type="submit"
                 [routerLink]="['/notificacion', notificacion.id, 'edit']"
                 class="btn btn-primary btn-sm"
@@ -93,7 +104,13 @@
                 <span class="d-none d-md-inline">Editar</span>
               </button>
 
-              <button type="submit" (click)="delete(notificacion)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+              <button
+                *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                type="submit"
+                (click)="delete(notificacion)"
+                class="btn btn-danger btn-sm"
+                data-cy="entityDeleteButton"
+              >
                 <fa-icon icon="times"></fa-icon>
                 <span class="d-none d-md-inline">Eliminar</span>
               </button>

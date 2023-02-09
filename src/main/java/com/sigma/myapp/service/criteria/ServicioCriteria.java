@@ -29,6 +29,8 @@ public class ServicioCriteria implements Serializable, Criteria {
 
     private LongFilter vigiladorId;
 
+    private LongFilter objetivoId;
+
     private Boolean distinct;
 
     public ServicioCriteria() {}
@@ -38,6 +40,7 @@ public class ServicioCriteria implements Serializable, Criteria {
         this.startDate = other.startDate == null ? null : other.startDate.copy();
         this.endDate = other.endDate == null ? null : other.endDate.copy();
         this.vigiladorId = other.vigiladorId == null ? null : other.vigiladorId.copy();
+        this.objetivoId = other.objetivoId == null ? null : other.objetivoId.copy();
         this.distinct = other.distinct;
     }
 
@@ -106,6 +109,21 @@ public class ServicioCriteria implements Serializable, Criteria {
         this.vigiladorId = vigiladorId;
     }
 
+    public LongFilter getObjetivoId() {
+        return objetivoId;
+    }
+
+    public LongFilter objetivoId() {
+        if (objetivoId == null) {
+            objetivoId = new LongFilter();
+        }
+        return objetivoId;
+    }
+
+    public void setObjetivoId(LongFilter objetivoId) {
+        this.objetivoId = objetivoId;
+    }
+
     public Boolean getDistinct() {
         return distinct;
     }
@@ -128,13 +146,14 @@ public class ServicioCriteria implements Serializable, Criteria {
             Objects.equals(startDate, that.startDate) &&
             Objects.equals(endDate, that.endDate) &&
             Objects.equals(vigiladorId, that.vigiladorId) &&
+            Objects.equals(objetivoId, that.objetivoId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, startDate, endDate, vigiladorId, distinct);
+        return Objects.hash(id, startDate, endDate, vigiladorId, objetivoId, distinct);
     }
 
     // prettier-ignore
@@ -145,6 +164,7 @@ public class ServicioCriteria implements Serializable, Criteria {
             (startDate != null ? "startDate=" + startDate + ", " : "") +
             (endDate != null ? "endDate=" + endDate + ", " : "") +
             (vigiladorId != null ? "vigiladorId=" + vigiladorId + ", " : "") +
+            (objetivoId != null ? "objetivoId=" + objetivoId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

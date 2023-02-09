@@ -36,6 +36,10 @@ public class Servicio implements Serializable {
     @JsonIgnoreProperties(value = { "categoria", "objetivo", "user" }, allowSetters = true)
     private Vigilador vigilador;
 
+    @ManyToOne(optional = false)
+    @NotNull
+    private Objetivo objetivo;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -87,6 +91,19 @@ public class Servicio implements Serializable {
 
     public Servicio vigilador(Vigilador vigilador) {
         this.setVigilador(vigilador);
+        return this;
+    }
+
+    public Objetivo getObjetivo() {
+        return this.objetivo;
+    }
+
+    public void setObjetivo(Objetivo objetivo) {
+        this.objetivo = objetivo;
+    }
+
+    public Servicio objetivo(Objetivo objetivo) {
+        this.setObjetivo(objetivo);
         return this;
     }
 

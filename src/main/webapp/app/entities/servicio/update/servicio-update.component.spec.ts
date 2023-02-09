@@ -11,6 +11,8 @@ import { ServicioService } from '../service/servicio.service';
 import { IServicio } from '../servicio.model';
 import { IVigilador } from 'app/entities/vigilador/vigilador.model';
 import { VigiladorService } from 'app/entities/vigilador/service/vigilador.service';
+import { IObjetivo } from 'app/entities/objetivo/objetivo.model';
+import { ObjetivoService } from 'app/entities/objetivo/service/objetivo.service';
 
 import { ServicioUpdateComponent } from './servicio-update.component';
 
@@ -21,6 +23,7 @@ describe('Servicio Management Update Component', () => {
   let servicioFormService: ServicioFormService;
   let servicioService: ServicioService;
   let vigiladorService: VigiladorService;
+  let objetivoService: ObjetivoService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,6 +47,7 @@ describe('Servicio Management Update Component', () => {
     servicioFormService = TestBed.inject(ServicioFormService);
     servicioService = TestBed.inject(ServicioService);
     vigiladorService = TestBed.inject(VigiladorService);
+    objetivoService = TestBed.inject(ObjetivoService);
 
     comp = fixture.componentInstance;
   });
@@ -71,15 +75,40 @@ describe('Servicio Management Update Component', () => {
       expect(comp.vigiladorsSharedCollection).toEqual(expectedCollection);
     });
 
+    it('Should call Objetivo query and add missing value', () => {
+      const servicio: IServicio = { id: 456 };
+      const objetivo: IObjetivo = { id: 20459 };
+      servicio.objetivo = objetivo;
+
+      const objetivoCollection: IObjetivo[] = [{ id: 44000 }];
+      jest.spyOn(objetivoService, 'query').mockReturnValue(of(new HttpResponse({ body: objetivoCollection })));
+      const additionalObjetivos = [objetivo];
+      const expectedCollection: IObjetivo[] = [...additionalObjetivos, ...objetivoCollection];
+      jest.spyOn(objetivoService, 'addObjetivoToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ servicio });
+      comp.ngOnInit();
+
+      expect(objetivoService.query).toHaveBeenCalled();
+      expect(objetivoService.addObjetivoToCollectionIfMissing).toHaveBeenCalledWith(
+        objetivoCollection,
+        ...additionalObjetivos.map(expect.objectContaining)
+      );
+      expect(comp.objetivosSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should update editForm', () => {
       const servicio: IServicio = { id: 456 };
       const vigilador: IVigilador = { id: 98648 };
       servicio.vigilador = vigilador;
+      const objetivo: IObjetivo = { id: 51684 };
+      servicio.objetivo = objetivo;
 
       activatedRoute.data = of({ servicio });
       comp.ngOnInit();
 
       expect(comp.vigiladorsSharedCollection).toContain(vigilador);
+      expect(comp.objetivosSharedCollection).toContain(objetivo);
       expect(comp.servicio).toEqual(servicio);
     });
   });
@@ -160,6 +189,16 @@ describe('Servicio Management Update Component', () => {
         jest.spyOn(vigiladorService, 'compareVigilador');
         comp.compareVigilador(entity, entity2);
         expect(vigiladorService.compareVigilador).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
+    describe('compareObjetivo', () => {
+      it('Should forward to objetivoService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(objetivoService, 'compareObjetivo');
+        comp.compareObjetivo(entity, entity2);
+        expect(objetivoService.compareObjetivo).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

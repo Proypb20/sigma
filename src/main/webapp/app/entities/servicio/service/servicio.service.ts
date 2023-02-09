@@ -79,6 +79,12 @@ export class ServicioService {
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
+  leftService(servicio: IServicio): Observable<EntityResponseType> {
+    return this.http
+      .post<RestServicio>(`${this.resourceUrl}/leftService`, servicio, { observe: 'response' })
+      .pipe(map(res => this.convertResponseFromServer(res)));
+  }
+
   compareServicio(o1: Pick<IServicio, 'id'> | null, o2: Pick<IServicio, 'id'> | null): boolean {
     return o1 && o2 ? this.getServicioIdentifier(o1) === this.getServicioIdentifier(o2) : o1 === o2;
   }

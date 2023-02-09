@@ -87,10 +87,10 @@ export class NavbarComponent implements OnInit {
   }
 
   protected onSaveError(): void {
-    alert('Servicio Tomado por otro vigilador');
+    // API for lalala
   }
 
   protected onSaveFinalize(): void {
-    alert('Servicio Tomado Finalize');
+    // API for lalala
   }
 }

@@ -10,26 +10,34 @@
       <jhi-alert></jhi-alert>
 
       <dl class="row-md jh-entity-details">
-        <dt><span>ID</span></dt>
+        <!--<dt><span>ID</span></dt>
         <dd>
           <span>{{ notificacion.id }}</span>
-        </dd>
-        <dt><span>Status</span></dt>
-        <dd>
-          <span>{{ notificacion.status }}</span>
-        </dd>
+        </dd>-->
         <dt><span>Novedad</span></dt>
         <dd>
           <div *ngIf="notificacion.novedad">
-            <a [routerLink]="['/novedad', notificacion.novedad.id, 'view']">{{ notificacion.novedad.id }}</a>
+            <a [routerLink]="['/novedad', notificacion.novedad.id, 'view']">{{ notificacion.novedad.texto }}</a>
           </div>
         </dd>
-        <dt><span>Vigilador</span></dt>
+        <dt><span>Adjunto</span></dt>
+        <dd>
+          <div *ngIf="notificacion.novedad?.picture">
+            <a (click)="openFile(notificacion.novedad?.picture, notificacion.novedad?.pictureContentType)">Abrir</a>
+          </div>
+          <div *ngIf="!notificacion.novedad?.picture">Sin adjuntos</div>
+        </dd>
+        <!--<dt><span>Estado</span></dt>
+        <dd>
+          <span>{{ notificacion.status }}</span>
+        </dd>-->
+
+        <!--<dt><span>Vigilador</span></dt>
         <dd>
           <div *ngIf="notificacion.vigilador">
             <a [routerLink]="['/vigilador', notificacion.vigilador.id, 'view']">{{ notificacion.vigilador.id }}</a>
           </div>
-        </dd>
+        </dd>-->
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

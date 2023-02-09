@@ -105,6 +105,12 @@ public class ServicioQueryService extends QueryService<Servicio> {
                         )
                     );
             }
+            if (criteria.getObjetivoId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getObjetivoId(), root -> root.join(Servicio_.objetivo, JoinType.LEFT).get(Objetivo_.id))
+                    );
+            }
         }
         return specification;
     }

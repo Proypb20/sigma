@@ -11,11 +11,21 @@
       <button
         id="jh-create-entity"
         data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-vigilador"
+        class="btn btn-primary jh-create-entity create-vigilador me-2"
         [routerLink]="['/vigilador/new']"
       >
         <fa-icon icon="plus"></fa-icon>
         <span> Crear nuevo Vigilador </span>
+      </button>
+
+      <button
+        id="jh-create-entity-back"
+        class="btn btn-danger float-right jh-create-entity create-vigilador"
+        (click)="Cancel()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-left'"></fa-icon>
+        <span> Volver</span>
       </button>
     </div>
   </h2>
@@ -34,7 +44,7 @@
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
           <th scope="col" jhiSortBy="id">
             <div class="d-flex">
-              <span>ID</span>
+              <span>Legajo</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -61,7 +71,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let vigilador of vigiladors; trackBy: trackId" data-cy="entityTable">
-          <td>{{ vigilador.id }}</td>
+          <td>{{ vigilador.user?.login }}</td>
           <td>{{ vigilador.user?.lastName }}, {{ vigilador.user?.firstName }}</td>
           <td>{{ vigilador.categoria?.name }}</td>
           <td>{{ vigilador.objetivo?.name }}</td>

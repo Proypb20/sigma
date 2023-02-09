@@ -8,6 +8,8 @@ import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/conf
 import { EntityArrayResponseType, ServicioService } from '../service/servicio.service';
 import { ServicioDeleteDialogComponent } from '../delete/servicio-delete-dialog.component';
 import { SortService } from 'app/shared/sort/sort.service';
+import { finalize, map } from 'rxjs/operators';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-servicio',
@@ -19,6 +21,8 @@ export class ServicioComponent implements OnInit {
 
   predicate = 'id';
   ascending = true;
+
+  uId = 0;
 
   constructor(
     protected servicioService: ServicioService,
@@ -51,6 +55,7 @@ export class ServicioComponent implements OnInit {
   }
 
   load(): void {
+    this.uId = history.state.uId;
     this.loadFromBackendWithRouteInformations().subscribe({
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess(res);
@@ -60,6 +65,33 @@ export class ServicioComponent implements OnInit {
 
   navigateToWithComponentValues(): void {
     this.handleNavigation(this.predicate, this.ascending);
+  }
+
+  Cancel(): void {
+    window.history.back();
+  }
+
+  dejarServicio(servicio: IServicio): void {
+    this.subscribeToSaveResponse(this.servicioService.leftService(servicio));
+  }
+
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IServicio>>): void {
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected onSaveSuccess(): void {
+    // lalala
+  }
+
+  protected onSaveError(): void {
+    // API for lalala
+  }
+
+  protected onSaveFinalize(): void {
+    // API for lalala
   }
 
   protected loadFromBackendWithRouteInformations(): Observable<EntityArrayResponseType> {
@@ -91,7 +123,9 @@ export class ServicioComponent implements OnInit {
   protected queryBackend(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
     this.isLoading = true;
     const queryObject = {
+      eagerload: true,
       sort: this.getSortQueryParam(predicate, ascending),
+      'vigiladorId.equals': this.uId,
     };
     return this.servicioService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }

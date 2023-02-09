@@ -23,6 +23,7 @@ describe('Servicio Form Service', () => {
             startDate: expect.any(Object),
             endDate: expect.any(Object),
             vigilador: expect.any(Object),
+            objetivo: expect.any(Object),
           })
         );
       });
@@ -36,6 +37,7 @@ describe('Servicio Form Service', () => {
             startDate: expect.any(Object),
             endDate: expect.any(Object),
             vigilador: expect.any(Object),
+            objetivo: expect.any(Object),
           })
         );
       });

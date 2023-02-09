@@ -6,9 +6,26 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+        <br />
+
+        <div class="row mb-3" hidden>
           <label class="form-label" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_objetivo">Objetivo</label>
+          <select
+            class="form-control"
+            id="field_objetivo"
+            data-cy="objetivo"
+            name="objetivo"
+            formControlName="objetivo"
+            [compareWith]="compareObjetivo"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="objetivoOption" *ngFor="let objetivoOption of objetivosSharedCollection">{{ objetivoOption.name }}</option>
+          </select>
         </div>
 
         <div class="row mb-3">
@@ -29,22 +46,7 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_objetivo">Objetivo</label>
-          <select
-            class="form-control"
-            id="field_objetivo"
-            data-cy="objetivo"
-            name="objetivo"
-            formControlName="objetivo"
-            [compareWith]="compareObjetivo"
-          >
-            <option [ngValue]="null"></option>
-            <option [ngValue]="objetivoOption" *ngFor="let objetivoOption of objetivosSharedCollection">{{ objetivoOption.name }}</option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_user">User</label>
+          <label class="form-label" for="field_user">Cuenta Usuario</label>
           <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
             <option [ngValue]="null"></option>
             <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">

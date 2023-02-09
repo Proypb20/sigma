@@ -6,21 +6,7 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
-          <label class="form-label" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_status">Status</label>
-          <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
-            <option [ngValue]="null"></option>
-            <option *ngFor="let status of statusValues" [value]="status">{{ status }}</option>
-          </select>
-          <div *ngIf="editForm.get('status')!.invalid && (editForm.get('status')!.dirty || editForm.get('status')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('status')?.errors?.required"> Este campo es obligatorio. </small>
-          </div>
-        </div>
+        <br />
 
         <div class="row mb-3">
           <label class="form-label" for="field_novedad">Novedad</label>
@@ -33,7 +19,7 @@
             [compareWith]="compareNovedad"
           >
             <option *ngIf="!editForm.get('novedad')!.value" [ngValue]="null" selected></option>
-            <option [ngValue]="novedadOption" *ngFor="let novedadOption of novedadsSharedCollection">{{ novedadOption.id }}</option>
+            <option [ngValue]="novedadOption" *ngFor="let novedadOption of novedadsSharedCollection">{{ novedadOption.texto }}</option>
           </select>
         </div>
         <div *ngIf="editForm.get(['novedad'])!.invalid && (editForm.get(['novedad'])!.dirty || editForm.get(['novedad'])!.touched)">
@@ -51,11 +37,28 @@
             [compareWith]="compareVigilador"
           >
             <option *ngIf="!editForm.get('vigilador')!.value" [ngValue]="null" selected></option>
-            <option [ngValue]="vigiladorOption" *ngFor="let vigiladorOption of vigiladorsSharedCollection">{{ vigiladorOption.id }}</option>
+            <option [ngValue]="vigiladorOption" *ngFor="let vigiladorOption of vigiladorsSharedCollection">
+              {{ vigiladorOption.user?.lastName }}, {{ vigiladorOption.user?.firstName }}
+            </option>
           </select>
         </div>
         <div *ngIf="editForm.get(['vigilador'])!.invalid && (editForm.get(['vigilador'])!.dirty || editForm.get(['vigilador'])!.touched)">
           <small class="form-text text-danger" *ngIf="editForm.get(['vigilador'])?.errors?.required"> Este campo es obligatorio. </small>
+        </div>
+      </div>
+
+      <div class="row mb-3" hidden>
+        <label class="form-label" for="field_id">ID</label>
+        <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+      </div>
+
+      <div class="row mb-3">
+        <label class="form-label" for="field_status">Estado</label>
+        <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
+          <option *ngFor="let status of statusValues" [value]="status">{{ status }}</option>
+        </select>
+        <div *ngIf="editForm.get('status')!.invalid && (editForm.get('status')!.dirty || editForm.get('status')!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get('status')?.errors?.required"> Este campo es obligatorio. </small>
         </div>
       </div>
 

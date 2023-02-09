@@ -20,6 +20,8 @@ public class ServicioDTO implements Serializable {
 
     private VigiladorDTO vigilador;
 
+    private ObjetivoDTO objetivo;
+
     public Long getId() {
         return id;
     }
@@ -52,6 +54,14 @@ public class ServicioDTO implements Serializable {
         this.vigilador = vigilador;
     }
 
+    public ObjetivoDTO getObjetivo() {
+        return objetivo;
+    }
+
+    public void setObjetivo(ObjetivoDTO objetivo) {
+        this.objetivo = objetivo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -81,6 +91,7 @@ public class ServicioDTO implements Serializable {
             ", startDate='" + getStartDate() + "'" +
             ", endDate='" + getEndDate() + "'" +
             ", vigilador=" + getVigilador() +
+            ", objetivo=" + getObjetivo() +
             "}";
     }
 }

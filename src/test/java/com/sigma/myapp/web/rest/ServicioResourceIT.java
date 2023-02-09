@@ -2,26 +2,36 @@ package com.sigma.myapp.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.sigma.myapp.IntegrationTest;
+import com.sigma.myapp.domain.Objetivo;
 import com.sigma.myapp.domain.Servicio;
 import com.sigma.myapp.domain.Vigilador;
 import com.sigma.myapp.repository.ServicioRepository;
+import com.sigma.myapp.service.ServicioService;
 import com.sigma.myapp.service.criteria.ServicioCriteria;
 import com.sigma.myapp.service.dto.ServicioDTO;
 import com.sigma.myapp.service.mapper.ServicioMapper;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,6 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link ServicioResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class ServicioResourceIT {
@@ -50,8 +61,14 @@ class ServicioResourceIT {
     @Autowired
     private ServicioRepository servicioRepository;
 
+    @Mock
+    private ServicioRepository servicioRepositoryMock;
+
     @Autowired
     private ServicioMapper servicioMapper;
+
+    @Mock
+    private ServicioService servicioServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -79,6 +96,16 @@ class ServicioResourceIT {
             vigilador = TestUtil.findAll(em, Vigilador.class).get(0);
         }
         servicio.setVigilador(vigilador);
+        // Add required entity
+        Objetivo objetivo;
+        if (TestUtil.findAll(em, Objetivo.class).isEmpty()) {
+            objetivo = ObjetivoResourceIT.createEntity(em);
+            em.persist(objetivo);
+            em.flush();
+        } else {
+            objetivo = TestUtil.findAll(em, Objetivo.class).get(0);
+        }
+        servicio.setObjetivo(objetivo);
         return servicio;
     }
 
@@ -100,6 +127,16 @@ class ServicioResourceIT {
             vigilador = TestUtil.findAll(em, Vigilador.class).get(0);
         }
         servicio.setVigilador(vigilador);
+        // Add required entity
+        Objetivo objetivo;
+        if (TestUtil.findAll(em, Objetivo.class).isEmpty()) {
+            objetivo = ObjetivoResourceIT.createUpdatedEntity(em);
+            em.persist(objetivo);
+            em.flush();
+        } else {
+            objetivo = TestUtil.findAll(em, Objetivo.class).get(0);
+        }
+        servicio.setObjetivo(objetivo);
         return servicio;
     }
 
@@ -177,6 +214,23 @@ class ServicioResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(servicio.getId().intValue())))
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllServiciosWithEagerRelationshipsIsEnabled() throws Exception {
+        when(servicioServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restServicioMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(servicioServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllServiciosWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(servicioServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restServicioMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
+        verify(servicioRepositoryMock, times(1)).findAll(any(Pageable.class));
     }
 
     @Test
@@ -312,6 +366,29 @@ class ServicioResourceIT {
 
         // Get all the servicioList where vigilador equals to (vigiladorId + 1)
         defaultServicioShouldNotBeFound("vigiladorId.equals=" + (vigiladorId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllServiciosByObjetivoIsEqualToSomething() throws Exception {
+        Objetivo objetivo;
+        if (TestUtil.findAll(em, Objetivo.class).isEmpty()) {
+            servicioRepository.saveAndFlush(servicio);
+            objetivo = ObjetivoResourceIT.createEntity(em);
+        } else {
+            objetivo = TestUtil.findAll(em, Objetivo.class).get(0);
+        }
+        em.persist(objetivo);
+        em.flush();
+        servicio.setObjetivo(objetivo);
+        servicioRepository.saveAndFlush(servicio);
+        Long objetivoId = objetivo.getId();
+
+        // Get all the servicioList where objetivo equals to objetivoId
+        defaultServicioShouldBeFound("objetivoId.equals=" + objetivoId);
+
+        // Get all the servicioList where objetivo equals to (objetivoId + 1)
+        defaultServicioShouldNotBeFound("objetivoId.equals=" + (objetivoId + 1));
     }
 
     /**

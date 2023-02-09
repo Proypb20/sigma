@@ -62,6 +62,10 @@ export class CategoriaComponent implements OnInit {
     this.handleNavigation(this.predicate, this.ascending);
   }
 
+  Cancel(): void {
+    window.history.back();
+  }
+
   protected loadFromBackendWithRouteInformations(): Observable<EntityArrayResponseType> {
     return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
       tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),

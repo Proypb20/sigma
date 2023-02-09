@@ -9,6 +9,7 @@ import com.sigma.myapp.service.ServicioService;
 import com.sigma.myapp.service.criteria.ServicioCriteria;
 import com.sigma.myapp.service.dto.ServicioDTO;
 import com.sigma.myapp.service.dto.VigiladorDTO;
+import com.sigma.myapp.service.mapper.ObjetivoMapper;
 import com.sigma.myapp.service.mapper.VigiladorMapper;
 import com.sigma.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -52,18 +53,22 @@ public class ServicioResource {
 
     private final VigiladorMapper vigiladorMapper;
 
+    private final ObjetivoMapper objetivoMapper;
+
     public ServicioResource(
         ServicioService servicioService,
         ServicioRepository servicioRepository,
         ServicioQueryService servicioQueryService,
         VigiladorRepository vigiladorRepository,
-        VigiladorMapper vigiladorMapper
+        VigiladorMapper vigiladorMapper,
+        ObjetivoMapper objetivoMapper
     ) {
         this.servicioService = servicioService;
         this.servicioRepository = servicioRepository;
         this.servicioQueryService = servicioQueryService;
         this.vigiladorRepository = vigiladorRepository;
         this.vigiladorMapper = vigiladorMapper;
+        this.objetivoMapper = objetivoMapper;
     }
 
     /**
@@ -218,7 +223,7 @@ public class ServicioResource {
             throw new BadRequestAlertException("No se ha encontrado el vigilador", ENTITY_NAME, "no Vigilador Found");
         }
 
-        List<Servicio> servicios = servicioRepository.findAllByObjetivoAndEndDateIsNUll(vigilador.get().getObjetivo());
+        List<Servicio> servicios = servicioRepository.findAllByObjetivoAndEndDate(vigilador.get().getObjetivo(), null);
         if (servicios.size() > 0) {
             throw new BadRequestAlertException(
                 "Otro vigilador esta prestando servicio este Objetivo",
@@ -230,11 +235,22 @@ public class ServicioResource {
         ServicioDTO servicio = new ServicioDTO();
         servicio.setStartDate(Instant.now());
         servicio.setVigilador(vigiladorMapper.toDto(vigilador.get()));
+        servicio.setObjetivo(objetivoMapper.toDto(vigilador.get().getObjetivo()));
         ServicioDTO result = servicioService.save(servicio);
 
         return ResponseEntity
             .created(new URI("/api/servicios/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
+    @PostMapping("/servicios/leftService")
+    public ResponseEntity<ServicioDTO> dejarServicio(@Valid @RequestBody ServicioDTO servicio) throws URISyntaxException {
+        servicio.setEndDate(Instant.now());
+        ServicioDTO result = servicioService.save(servicio);
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, servicio.getId().toString()))
             .body(result);
     }
 }

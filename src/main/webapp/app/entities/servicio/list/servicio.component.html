@@ -9,13 +9,24 @@
       </button>
 
       <button
+        *jhiHasAnyAuthority="'ROLE_ADMIN'"
         id="jh-create-entity"
         data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-servicio"
+        class="btn btn-primary jh-create-entity create-servicio me-2"
         [routerLink]="['/servicio/new']"
       >
         <fa-icon icon="plus"></fa-icon>
         <span> Crear nuevo Servicio </span>
+      </button>
+
+      <button
+        id="jh-create-entity-back"
+        class="btn btn-danger float-right jh-create-entity create-servicio"
+        (click)="Cancel()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-left'"></fa-icon>
+        <span> Volver</span>
       </button>
     </div>
   </h2>
@@ -38,6 +49,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>-->
+          <th scope="col" jhiSortBy="objetivo.name">
+            <div class="d-flex">
+              <span>Objetivo</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="vigilador.id">
             <div class="d-flex">
               <span>Vigilador</span>
@@ -64,23 +81,25 @@
           <!--<td>
             <a [routerLink]="['/servicio', servicio.id, 'view']">{{ servicio.id }}</a>
           </td>-->
+          <td>{{ servicio.objetivo?.name }}</td>
           <td>{{ servicio.vigilador?.user?.lastName }},{{ servicio.vigilador?.user?.firstName }}</td>
           <td>{{ servicio.startDate | formatMediumDatetime }}</td>
           <td>{{ servicio.endDate | formatMediumDatetime }}</td>
-
           <td class="text-end">
             <div class="btn-group">
               <button
+                *ngIf="servicio.endDate == null"
                 type="submit"
-                [routerLink]="['/servicio', servicio.id, 'view']"
                 class="btn btn-info btn-sm"
                 data-cy="entityDetailsButton"
+                (click)="dejarServicio(servicio)"
               >
                 <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">Vista</span>
+                <span class="d-none d-md-inline">Dejar Servicio</span>
               </button>
 
               <button
+                *jhiHasAnyAuthority="'ROLE_ADMIN'"
                 type="submit"
                 [routerLink]="['/servicio', servicio.id, 'edit']"
                 class="btn btn-primary btn-sm"
@@ -90,7 +109,13 @@
                 <span class="d-none d-md-inline">Editar</span>
               </button>
 
-              <button type="submit" (click)="delete(servicio)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+              <button
+                *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                type="submit"
+                (click)="delete(servicio)"
+                class="btn btn-danger btn-sm"
+                data-cy="entityDeleteButton"
+              >
                 <fa-icon icon="times"></fa-icon>
                 <span class="d-none d-md-inline">Eliminar</span>
               </button>

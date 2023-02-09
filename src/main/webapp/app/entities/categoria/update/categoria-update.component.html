@@ -6,13 +6,15 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+        <br />
+
+        <div class="row mb-3" hidden>
           <label class="form-label" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_name">Name</label>
+          <label class="form-label" for="field_name">Nombre</label>
           <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
           <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> Este campo es obligatorio. </small>
@@ -20,22 +22,22 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_hourValue">Hour Value</label>
+          <label class="form-label" for="field_hourValue">Valor Hora</label>
           <input type="number" class="form-control" name="hourValue" id="field_hourValue" data-cy="hourValue" formControlName="hourValue" />
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_extra50">Extra 50</label>
+          <label class="form-label" for="field_extra50">Extra al 50%</label>
           <input type="number" class="form-control" name="extra50" id="field_extra50" data-cy="extra50" formControlName="extra50" />
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_extra100">Extra 100</label>
+          <label class="form-label" for="field_extra100">Extra al 100%</label>
           <input type="number" class="form-control" name="extra100" id="field_extra100" data-cy="extra100" formControlName="extra100" />
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_totalHour">Total Hour</label>
+          <label class="form-label" for="field_totalHour">Horas Totales</label>
           <input type="number" class="form-control" name="totalHour" id="field_totalHour" data-cy="totalHour" formControlName="totalHour" />
         </div>
       </div>

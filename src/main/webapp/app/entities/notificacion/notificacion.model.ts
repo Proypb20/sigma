@@ -5,7 +5,7 @@ import { Status } from 'app/entities/enumerations/status.model';
 export interface INotificacion {
   id: number;
   status?: Status | null;
-  novedad?: Pick<INovedad, 'id' | 'texto'> | null;
+  novedad?: Pick<INovedad, 'id' | 'texto' | 'picture' | 'pictureContentType'> | null;
   vigilador?: Pick<IVigilador, 'id' | 'user'> | null;
 }
 

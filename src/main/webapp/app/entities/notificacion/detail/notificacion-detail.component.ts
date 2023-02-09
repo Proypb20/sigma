@@ -7,6 +7,8 @@ import { finalize, map } from 'rxjs/operators';
 import { INotificacion } from '../notificacion.model';
 import { NotificacionService } from '../service/notificacion.service';
 
+import { DataUtils } from 'app/core/util/data-util.service';
+
 @Component({
   selector: 'jhi-notificacion-detail',
   templateUrl: './notificacion-detail.component.html',
@@ -14,12 +16,24 @@ import { NotificacionService } from '../service/notificacion.service';
 export class NotificacionDetailComponent implements OnInit {
   notificacion: INotificacion | null = null;
 
-  constructor(protected activatedRoute: ActivatedRoute, protected notificacionService: NotificacionService) {}
+  constructor(
+    protected dataUtils: DataUtils,
+    protected activatedRoute: ActivatedRoute,
+    protected notificacionService: NotificacionService
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ notificacion }) => {
       this.notificacion = notificacion;
     });
+  }
+
+  byteSize(base64String: string | null | undefined): string {
+    return this.dataUtils.byteSize(base64String!);
+  }
+
+  openFile(base64String: string | null | undefined, contentType: string | null | undefined): void {
+    this.dataUtils.openFile(base64String!, contentType);
   }
 
   previousState(): void {
@@ -35,7 +49,7 @@ export class NotificacionDetailComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
-    this.previousState();
+    // Algo
   }
 
   protected onSaveError(): void {
