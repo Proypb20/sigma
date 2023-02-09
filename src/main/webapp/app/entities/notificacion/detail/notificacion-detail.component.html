@@ -1,0 +1,44 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="notificacion">
+      <h2 data-cy="notificacionDetailsHeading"><span>Notificacion</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ notificacion.id }}</span>
+        </dd>
+        <dt><span>Status</span></dt>
+        <dd>
+          <span>{{ notificacion.status }}</span>
+        </dd>
+        <dt><span>Novedad</span></dt>
+        <dd>
+          <div *ngIf="notificacion.novedad">
+            <a [routerLink]="['/novedad', notificacion.novedad.id, 'view']">{{ notificacion.novedad.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Vigilador</span></dt>
+        <dd>
+          <div *ngIf="notificacion.vigilador">
+            <a [routerLink]="['/vigilador', notificacion.vigilador.id, 'view']">{{ notificacion.vigilador.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+      </button>
+
+      <button type="button" [routerLink]="['/notificacion', notificacion.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+      </button>
+    </div>
+  </div>
+</div>

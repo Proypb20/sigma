@@ -1,0 +1,79 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-notificacion-heading" data-cy="NotificacionCreateUpdateHeading">Crear o editar Notificacion</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_status">Status</label>
+          <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
+            <option [ngValue]="null"></option>
+            <option *ngFor="let status of statusValues" [value]="status">{{ status }}</option>
+          </select>
+          <div *ngIf="editForm.get('status')!.invalid && (editForm.get('status')!.dirty || editForm.get('status')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('status')?.errors?.required"> Este campo es obligatorio. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_novedad">Novedad</label>
+          <select
+            class="form-control"
+            id="field_novedad"
+            data-cy="novedad"
+            name="novedad"
+            formControlName="novedad"
+            [compareWith]="compareNovedad"
+          >
+            <option *ngIf="!editForm.get('novedad')!.value" [ngValue]="null" selected></option>
+            <option [ngValue]="novedadOption" *ngFor="let novedadOption of novedadsSharedCollection">{{ novedadOption.id }}</option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['novedad'])!.invalid && (editForm.get(['novedad'])!.dirty || editForm.get(['novedad'])!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get(['novedad'])?.errors?.required"> Este campo es obligatorio. </small>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_vigilador">Vigilador</label>
+          <select
+            class="form-control"
+            id="field_vigilador"
+            data-cy="vigilador"
+            name="vigilador"
+            formControlName="vigilador"
+            [compareWith]="compareVigilador"
+          >
+            <option *ngIf="!editForm.get('vigilador')!.value" [ngValue]="null" selected></option>
+            <option [ngValue]="vigiladorOption" *ngFor="let vigiladorOption of vigiladorsSharedCollection">{{ vigiladorOption.id }}</option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['vigilador'])!.invalid && (editForm.get(['vigilador'])!.dirty || editForm.get(['vigilador'])!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get(['vigilador'])?.errors?.required"> Este campo es obligatorio. </small>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,110 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-novedad-heading" data-cy="NovedadCreateUpdateHeading">Crear o editar Novedad</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_texto">Texto</label>
+          <input type="text" class="form-control" name="texto" id="field_texto" data-cy="texto" formControlName="texto" />
+          <div *ngIf="editForm.get('texto')!.invalid && (editForm.get('texto')!.dirty || editForm.get('texto')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('texto')?.errors?.required"> Este campo es obligatorio. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_picture">Picture</label>
+          <div>
+            <div *ngIf="editForm.get('picture')!.value" class="form-text text-danger clearfix">
+              <a class="pull-start" (click)="openFile(editForm.get('picture')!.value!, editForm.get('pictureContentType')!.value!)">Abrir</a
+              ><br />
+              <span class="pull-start"
+                >{{ editForm.get('pictureContentType')!.value }}, {{ byteSize(editForm.get('picture')!.value!) }}</span
+              >
+              <button
+                type="button"
+                (click)="editForm.patchValue({ picture: undefined, pictureContentType: undefined })"
+                class="btn btn-secondary btn-xs pull-end"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input type="file" id="file_picture" data-cy="picture" (change)="setFileData($event, 'picture', false)" />
+          </div>
+          <input type="hidden" class="form-control" name="picture" id="field_picture" data-cy="picture" formControlName="picture" />
+          <input
+            type="hidden"
+            class="form-control"
+            name="pictureContentType"
+            id="field_pictureContentType"
+            formControlName="pictureContentType"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_entregar">Entregar</label>
+          <select class="form-control" name="entregar" formControlName="entregar" id="field_entregar" data-cy="entregar">
+            <option [ngValue]="null"></option>
+            <option *ngFor="let entregar of entregarValues" [value]="entregar">entregar</option>
+          </select>
+          <div *ngIf="editForm.get('entregar')!.invalid && (editForm.get('entregar')!.dirty || editForm.get('entregar')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('entregar')?.errors?.required"> Este campo es obligatorio. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_vigilador">Vigilador</label>
+          <select
+            class="form-control"
+            id="field_vigilador"
+            data-cy="vigilador"
+            name="vigilador"
+            formControlName="vigilador"
+            [compareWith]="compareVigilador"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="vigiladorOption" *ngFor="let vigiladorOption of vigiladorsSharedCollection">{{ vigiladorOption.id }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_objetivo">Objetivo</label>
+          <select
+            class="form-control"
+            id="field_objetivo"
+            data-cy="objetivo"
+            name="objetivo"
+            formControlName="objetivo"
+            [compareWith]="compareObjetivo"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="objetivoOption" *ngFor="let objetivoOption of objetivosSharedCollection">{{ objetivoOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

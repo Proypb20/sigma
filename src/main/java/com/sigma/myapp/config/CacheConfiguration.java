@@ -49,6 +49,12 @@ public class CacheConfiguration {
             createCache(cm, com.sigma.myapp.domain.User.class.getName());
             createCache(cm, com.sigma.myapp.domain.Authority.class.getName());
             createCache(cm, com.sigma.myapp.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.sigma.myapp.domain.Categoria.class.getName());
+            createCache(cm, com.sigma.myapp.domain.Objetivo.class.getName());
+            createCache(cm, com.sigma.myapp.domain.Vigilador.class.getName());
+            createCache(cm, com.sigma.myapp.domain.Servicio.class.getName());
+            createCache(cm, com.sigma.myapp.domain.Novedad.class.getName());
+            createCache(cm, com.sigma.myapp.domain.Notificacion.class.getName());
             // jhipster-needle-caffeine-add-entry
         };
     }

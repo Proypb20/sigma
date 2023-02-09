@@ -1,0 +1,55 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="novedad">
+      <h2 data-cy="novedadDetailsHeading"><span>Novedad</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ novedad.id }}</span>
+        </dd>
+        <dt><span>Texto</span></dt>
+        <dd>
+          <span>{{ novedad.texto }}</span>
+        </dd>
+        <dt><span>Picture</span></dt>
+        <dd>
+          <div *ngIf="novedad.picture">
+            <a (click)="openFile(novedad.picture, novedad.pictureContentType)">Abrir</a>
+            {{ novedad.pictureContentType }}, {{ byteSize(novedad.picture) }}
+          </div>
+        </dd>
+        <dt><span>Entregar</span></dt>
+        <dd>
+          <span>{{ novedad.entregar }}</span>
+        </dd>
+        <dt><span>Vigilador</span></dt>
+        <dd>
+          <div *ngIf="novedad.vigilador">
+            <a [routerLink]="['/vigilador', novedad.vigilador.id, 'view']">{{ novedad.vigilador.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Objetivo</span></dt>
+        <dd>
+          <div *ngIf="novedad.objetivo">
+            <a [routerLink]="['/objetivo', novedad.objetivo.id, 'view']">{{ novedad.objetivo.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+      </button>
+
+      <button type="button" [routerLink]="['/novedad', novedad.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+      </button>
+    </div>
+  </div>
+</div>

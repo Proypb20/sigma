@@ -1,0 +1,116 @@
+<div>
+  <h2 id="page-heading" data-cy="CategoriaHeading">
+    <span>Categorias</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-categoria"
+        [routerLink]="['/categoria/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Crear nuevo Categoria </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="categorias?.length === 0">
+    <span>No hay Categorias</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="categorias && categorias.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <!--<th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>-->
+          <th scope="col" jhiSortBy="name">
+            <div class="d-flex">
+              <span>Nombre</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <!--<th scope="col" jhiSortBy="hourValue">
+            <div class="d-flex">
+              <span>Valor Hora</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="extra50">
+            <div class="d-flex">
+              <span>Valor Hora Extra al 50%</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="extra100">
+            <div class="d-flex">
+              <span>Valor Hora Extra al 50%</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="totalHour">
+            <div class="d-flex">
+              <span>Total Hour</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>-->
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let categoria of categorias; trackBy: trackId" data-cy="entityTable">
+          <!--<td>
+            <a [routerLink]="['/categoria', categoria.id, 'view']">{{ categoria.id }}</a>
+          </td>-->
+          <td>{{ categoria.name }}</td>
+          <!--<td>{{ categoria.hourValue }}</td>
+          <td>{{ categoria.extra50 }}</td>
+          <td>{{ categoria.extra100 }}</td>
+          <td>{{ categoria.totalHour }}</td>-->
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/categoria', categoria.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Vista</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/categoria', categoria.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Editar</span>
+              </button>
+
+              <button type="submit" (click)="delete(categoria)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Eliminar</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

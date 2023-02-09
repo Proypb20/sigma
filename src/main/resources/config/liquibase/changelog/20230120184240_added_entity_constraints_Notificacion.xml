@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity Notificacion.
+    -->
+    <changeSet id="20230120184240-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="novedad_id"
+                                 baseTableName="notificacion"
+                                 constraintName="fk_notificacion__novedad_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="novedad"/>
+
+        <addForeignKeyConstraint baseColumnNames="vigilador_id"
+                                 baseTableName="notificacion"
+                                 constraintName="fk_notificacion__vigilador_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="vigilador"/>
+    </changeSet>
+</databaseChangeLog>

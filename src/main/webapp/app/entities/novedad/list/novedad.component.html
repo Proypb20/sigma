@@ -1,0 +1,127 @@
+<div>
+  <h2 id="page-heading" data-cy="NovedadHeading">
+    <span>Novedads</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-novedad"
+        [routerLink]="['/novedad/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Crear nuevo Novedad </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="novedads?.length === 0">
+    <span>Ningún Novedads encontrado</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="novedads && novedads.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="texto">
+            <div class="d-flex">
+              <span>Texto</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="picture">
+            <div class="d-flex">
+              <span>Picture</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="entregar">
+            <div class="d-flex">
+              <span>Entregar</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vigilador.id">
+            <div class="d-flex">
+              <span>Vigilador</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="objetivo.id">
+            <div class="d-flex">
+              <span>Objetivo</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let novedad of novedads; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/novedad', novedad.id, 'view']">{{ novedad.id }}</a>
+          </td>
+          <td>{{ novedad.texto }}</td>
+          <td>
+            <a *ngIf="novedad.picture" (click)="openFile(novedad.picture, novedad.pictureContentType)">Abrir</a>
+            <span *ngIf="novedad.picture">{{ novedad.pictureContentType }}, {{ byteSize(novedad.picture) }}</span>
+          </td>
+          <td>{{ novedad.entregar }}</td>
+          <td>
+            <div *ngIf="novedad.vigilador">
+              <a [routerLink]="['/vigilador', novedad.vigilador.id, 'view']">{{ novedad.vigilador.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="novedad.objetivo">
+              <a [routerLink]="['/objetivo', novedad.objetivo.id, 'view']">{{ novedad.objetivo.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/novedad', novedad.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Vista</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/novedad', novedad.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Editar</span>
+              </button>
+
+              <button type="submit" (click)="delete(novedad)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Eliminar</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

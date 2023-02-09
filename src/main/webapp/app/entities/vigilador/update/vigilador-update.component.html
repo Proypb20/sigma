@@ -1,0 +1,72 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-vigilador-heading" data-cy="VigiladorCreateUpdateHeading">Crear o editar Vigilador</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_categoria">Categoria</label>
+          <select
+            class="form-control"
+            id="field_categoria"
+            data-cy="categoria"
+            name="categoria"
+            formControlName="categoria"
+            [compareWith]="compareCategoria"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="categoriaOption" *ngFor="let categoriaOption of categoriasSharedCollection">
+              {{ categoriaOption.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_objetivo">Objetivo</label>
+          <select
+            class="form-control"
+            id="field_objetivo"
+            data-cy="objetivo"
+            name="objetivo"
+            formControlName="objetivo"
+            [compareWith]="compareObjetivo"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="objetivoOption" *ngFor="let objetivoOption of objetivosSharedCollection">{{ objetivoOption.name }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_user">User</label>
+          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.login }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

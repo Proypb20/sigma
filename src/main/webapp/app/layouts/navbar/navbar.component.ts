@@ -8,6 +8,13 @@ import { LoginService } from 'app/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
 
+import { Observable } from 'rxjs';
+import { HttpResponse } from '@angular/common/http';
+import { finalize, map } from 'rxjs/operators';
+import { IServicio } from 'app/entities/servicio/servicio.model';
+import { ServicioService } from 'app/entities/servicio/service/servicio.service';
+import dayjs from 'dayjs/esm';
+
 @Component({
   selector: 'jhi-navbar',
   templateUrl: './navbar.component.html',
@@ -20,10 +27,12 @@ export class NavbarComponent implements OnInit {
   version = '';
   account: Account | null = null;
   entitiesNavbarItems: any[] = [];
+  servicio: IServicio | null = null;
 
   constructor(
     private loginService: LoginService,
     private accountService: AccountService,
+    private servicioService: ServicioService,
     private profileService: ProfileService,
     private router: Router
   ) {
@@ -60,5 +69,28 @@ export class NavbarComponent implements OnInit {
 
   toggleNavbar(): void {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
+  }
+
+  tomarServicio(): void {
+    this.subscribeToSaveResponse(this.servicioService.takeService(this.account!.id));
+  }
+
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IServicio>>): void {
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected onSaveSuccess(): void {
+    alert('Servicio Tomado');
+  }
+
+  protected onSaveError(): void {
+    alert('Servicio Tomado por otro vigilador');
+  }
+
+  protected onSaveFinalize(): void {
+    alert('Servicio Tomado Finalize');
   }
 }

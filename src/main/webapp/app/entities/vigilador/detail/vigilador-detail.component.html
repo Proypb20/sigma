@@ -1,0 +1,44 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="vigilador">
+      <h2 data-cy="vigiladorDetailsHeading"><span>Vigilador</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ vigilador.id }}</span>
+        </dd>
+        <dt><span>Categoria</span></dt>
+        <dd>
+          <div *ngIf="vigilador.categoria">
+            <a [routerLink]="['/categoria', vigilador.categoria.id, 'view']">{{ vigilador.categoria.name }}</a>
+          </div>
+        </dd>
+        <dt><span>Objetivo</span></dt>
+        <dd>
+          <div *ngIf="vigilador.objetivo">
+            <a [routerLink]="['/objetivo', vigilador.objetivo.id, 'view']">{{ vigilador.objetivo.name }}</a>
+          </div>
+        </dd>
+        <dt><span>User</span></dt>
+        <dd>
+          <span>{{ vigilador.user?.login }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+      </button>
+
+      <button type="button" [routerLink]="['/vigilador', vigilador.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+      </button>
+    </div>
+  </div>
+</div>

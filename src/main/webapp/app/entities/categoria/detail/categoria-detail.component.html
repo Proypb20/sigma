@@ -1,0 +1,48 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="categoria">
+      <h2 data-cy="categoriaDetailsHeading"><span>Categoria</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ categoria.id }}</span>
+        </dd>
+        <dt><span>Name</span></dt>
+        <dd>
+          <span>{{ categoria.name }}</span>
+        </dd>
+        <dt><span>Hour Value</span></dt>
+        <dd>
+          <span>{{ categoria.hourValue }}</span>
+        </dd>
+        <dt><span>Extra 50</span></dt>
+        <dd>
+          <span>{{ categoria.extra50 }}</span>
+        </dd>
+        <dt><span>Extra 100</span></dt>
+        <dd>
+          <span>{{ categoria.extra100 }}</span>
+        </dd>
+        <dt><span>Total Hour</span></dt>
+        <dd>
+          <span>{{ categoria.totalHour }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+      </button>
+
+      <button type="button" [routerLink]="['/categoria', categoria.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+      </button>
+    </div>
+  </div>
+</div>
