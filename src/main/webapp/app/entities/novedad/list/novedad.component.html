@@ -32,12 +32,12 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id">
+          <!--<th scope="col" jhiSortBy="id">
             <div class="d-flex">
               <span>ID</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
-          </th>
+          </th>-->
           <th scope="col" jhiSortBy="texto">
             <div class="d-flex">
               <span>Texto</span>
@@ -46,17 +46,17 @@
           </th>
           <th scope="col" jhiSortBy="picture">
             <div class="d-flex">
-              <span>Picture</span>
+              <span>Imagen</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
           <th scope="col" jhiSortBy="entregar">
             <div class="d-flex">
-              <span>Entregar</span>
+              <span>Entregar A:</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="vigilador.id">
+          <!--<th scope="col" jhiSortBy="vigilador.id">
             <div class="d-flex">
               <span>Vigilador</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
@@ -67,22 +67,22 @@
               <span>Objetivo</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
-          </th>
+          </th>-->
           <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let novedad of novedads; trackBy: trackId" data-cy="entityTable">
-          <td>
+          <!--<td>
             <a [routerLink]="['/novedad', novedad.id, 'view']">{{ novedad.id }}</a>
-          </td>
+          </td>-->
           <td>{{ novedad.texto }}</td>
           <td>
             <a *ngIf="novedad.picture" (click)="openFile(novedad.picture, novedad.pictureContentType)">Abrir</a>
             <span *ngIf="novedad.picture">{{ novedad.pictureContentType }}, {{ byteSize(novedad.picture) }}</span>
           </td>
           <td>{{ novedad.entregar }}</td>
-          <td>
+          <!--<td>
             <div *ngIf="novedad.vigilador">
               <a [routerLink]="['/vigilador', novedad.vigilador.id, 'view']">{{ novedad.vigilador.id }}</a>
             </div>
@@ -91,7 +91,7 @@
             <div *ngIf="novedad.objetivo">
               <a [routerLink]="['/objetivo', novedad.objetivo.id, 'view']">{{ novedad.objetivo.id }}</a>
             </div>
-          </td>
+          </td>-->
           <td class="text-end">
             <div class="btn-group">
               <button

@@ -44,8 +44,8 @@ class NovedadResourceIT {
     private static final String DEFAULT_PICTURE_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_PICTURE_CONTENT_TYPE = "image/png";
 
-    private static final Entregar DEFAULT_ENTREGAR = Entregar.Vigilador;
-    private static final Entregar UPDATED_ENTREGAR = Entregar.Objetivo;
+    private static final Entregar DEFAULT_ENTREGAR = Entregar.VIGILADOR;
+    private static final Entregar UPDATED_ENTREGAR = Entregar.OBJETIVO;
 
     private static final String ENTITY_API_URL = "/api/novedads";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";

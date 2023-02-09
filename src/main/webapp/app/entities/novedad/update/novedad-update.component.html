@@ -6,7 +6,9 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+        <br />
+
+        <div class="row mb-3" hidden>
           <label class="form-label" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
@@ -20,7 +22,7 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_picture">Picture</label>
+          <label class="form-label" for="field_picture">Imagen</label>
           <div>
             <div *ngIf="editForm.get('picture')!.value" class="form-text text-danger clearfix">
               <a class="pull-start" (click)="openFile(editForm.get('picture')!.value!, editForm.get('pictureContentType')!.value!)">Abrir</a
@@ -49,10 +51,9 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_entregar">Entregar</label>
+          <label class="form-label" for="field_entregar">Entregar A:</label>
           <select class="form-control" name="entregar" formControlName="entregar" id="field_entregar" data-cy="entregar">
-            <option [ngValue]="null"></option>
-            <option *ngFor="let entregar of entregarValues" [value]="entregar">entregar</option>
+            <option *ngFor="let entregar of entregarValues" [value]="entregar">{{ entregar }}</option>
           </select>
           <div *ngIf="editForm.get('entregar')!.invalid && (editForm.get('entregar')!.dirty || editForm.get('entregar')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('entregar')?.errors?.required"> Este campo es obligatorio. </small>
@@ -70,7 +71,9 @@
             [compareWith]="compareVigilador"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="vigiladorOption" *ngFor="let vigiladorOption of vigiladorsSharedCollection">{{ vigiladorOption.id }}</option>
+            <option [ngValue]="vigiladorOption" *ngFor="let vigiladorOption of vigiladorsSharedCollection">
+              {{ vigiladorOption.user?.lastName }}, {{ vigiladorOption.user?.firstName }}
+            </option>
           </select>
         </div>
 
@@ -85,7 +88,7 @@
             [compareWith]="compareObjetivo"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="objetivoOption" *ngFor="let objetivoOption of objetivosSharedCollection">{{ objetivoOption.id }}</option>
+            <option [ngValue]="objetivoOption" *ngFor="let objetivoOption of objetivosSharedCollection">{{ objetivoOption.name }}</option>
           </select>
         </div>
       </div>

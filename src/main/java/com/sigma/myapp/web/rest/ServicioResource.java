@@ -1,5 +1,6 @@
 package com.sigma.myapp.web.rest;
 
+import com.sigma.myapp.domain.Servicio;
 import com.sigma.myapp.domain.Vigilador;
 import com.sigma.myapp.repository.ServicioRepository;
 import com.sigma.myapp.repository.VigiladorRepository;
@@ -215,6 +216,15 @@ public class ServicioResource {
         Optional<Vigilador> vigilador = vigiladorRepository.findById(vId);
         if (!vigilador.isPresent()) {
             throw new BadRequestAlertException("No se ha encontrado el vigilador", ENTITY_NAME, "no Vigilador Found");
+        }
+
+        List<Servicio> servicios = servicioRepository.findAllByObjetivoAndEndDateIsNUll(vigilador.get().getObjetivo());
+        if (servicios.size() > 0) {
+            throw new BadRequestAlertException(
+                "Otro vigilador esta prestando servicio este Objetivo",
+                ENTITY_NAME,
+                "Otro vigilador esta prestando servicio este Objetivo"
+            );
         }
 
         ServicioDTO servicio = new ServicioDTO();

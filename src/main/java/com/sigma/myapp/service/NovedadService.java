@@ -1,7 +1,13 @@
 package com.sigma.myapp.service;
 
+import com.sigma.myapp.domain.Notificacion;
 import com.sigma.myapp.domain.Novedad;
+import com.sigma.myapp.domain.Vigilador;
+import com.sigma.myapp.domain.enumeration.Entregar;
+import com.sigma.myapp.domain.enumeration.Status;
+import com.sigma.myapp.repository.NotificacionRepository;
 import com.sigma.myapp.repository.NovedadRepository;
+import com.sigma.myapp.repository.VigiladorRepository;
 import com.sigma.myapp.service.dto.NovedadDTO;
 import com.sigma.myapp.service.mapper.NovedadMapper;
 import java.util.LinkedList;
@@ -26,9 +32,20 @@ public class NovedadService {
 
     private final NovedadMapper novedadMapper;
 
-    public NovedadService(NovedadRepository novedadRepository, NovedadMapper novedadMapper) {
+    private final NotificacionRepository notificacionRepository;
+
+    private final VigiladorRepository vigiladorRepository;
+
+    public NovedadService(
+        NovedadRepository novedadRepository,
+        NovedadMapper novedadMapper,
+        NotificacionRepository notificacionRepository,
+        VigiladorRepository vigiladorRepository
+    ) {
         this.novedadRepository = novedadRepository;
         this.novedadMapper = novedadMapper;
+        this.notificacionRepository = notificacionRepository;
+        this.vigiladorRepository = vigiladorRepository;
     }
 
     /**
@@ -41,6 +58,37 @@ public class NovedadService {
         log.debug("Request to save Novedad : {}", novedadDTO);
         Novedad novedad = novedadMapper.toEntity(novedadDTO);
         novedad = novedadRepository.save(novedad);
+
+        if (novedad.getEntregar().equals(Entregar.VIGILADOR)) {
+            Notificacion notif = new Notificacion();
+            notif.setNovedad(novedad);
+            notif.setVigilador(novedad.getVigilador());
+            notif.setStatus(Status.PENDIENTE);
+            notif = notificacionRepository.save(notif);
+        }
+
+        if (novedad.getEntregar().equals(Entregar.OBJETIVO)) {
+            List<Vigilador> vigiladores = vigiladorRepository.findAllByObjetivo(novedad.getObjetivo());
+            for (Vigilador vigi : vigiladores) {
+                Notificacion notif = new Notificacion();
+                notif.setNovedad(novedad);
+                notif.setVigilador(vigi);
+                notif.setStatus(Status.PENDIENTE);
+                notif = notificacionRepository.save(notif);
+            }
+        }
+
+        if (novedad.getEntregar().equals(Entregar.TODOS)) {
+            List<Vigilador> vigiladores = vigiladorRepository.findAll();
+            for (Vigilador vigi : vigiladores) {
+                Notificacion notif = new Notificacion();
+                notif.setNovedad(novedad);
+                notif.setVigilador(vigi);
+                notif.setStatus(Status.PENDIENTE);
+                notif = notificacionRepository.save(notif);
+            }
+        }
+
         return novedadMapper.toDto(novedad);
     }
 

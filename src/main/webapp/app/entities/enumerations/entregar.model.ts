@@ -1,7 +1,7 @@
 export enum entregar {
-  VIGILADOR = 'VIGILADOR',
+  VIGILADOR = 'Vigilador',
 
-  OBJETIVO = 'OBJETIVO',
+  OBJETIVO = 'Objetivo',
 
-  TODOS = 'TODOS',
+  TODOS = 'Todos',
 }

@@ -16,7 +16,7 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'vigilador',
-        data: { pageTitle: 'Vigiladors' },
+        data: { pageTitle: 'Vigiladores' },
         loadChildren: () => import('./vigilador/vigilador.module').then(m => m.VigiladorModule),
       },
       {
@@ -26,12 +26,12 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'novedad',
-        data: { pageTitle: 'Novedads' },
+        data: { pageTitle: 'Novedades' },
         loadChildren: () => import('./novedad/novedad.module').then(m => m.NovedadModule),
       },
       {
         path: 'notificacion',
-        data: { pageTitle: 'Notificacions' },
+        data: { pageTitle: 'Notificaciones' },
         loadChildren: () => import('./notificacion/notificacion.module').then(m => m.NotificacionModule),
       },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */

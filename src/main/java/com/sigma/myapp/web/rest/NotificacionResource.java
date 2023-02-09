@@ -1,10 +1,13 @@
 package com.sigma.myapp.web.rest;
 
+import com.sigma.myapp.domain.Notificacion;
+import com.sigma.myapp.domain.enumeration.Status;
 import com.sigma.myapp.repository.NotificacionRepository;
 import com.sigma.myapp.service.NotificacionQueryService;
 import com.sigma.myapp.service.NotificacionService;
 import com.sigma.myapp.service.criteria.NotificacionCriteria;
 import com.sigma.myapp.service.dto.NotificacionDTO;
+import com.sigma.myapp.service.mapper.NotificacionMapper;
 import com.sigma.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -41,14 +44,18 @@ public class NotificacionResource {
 
     private final NotificacionQueryService notificacionQueryService;
 
+    private final NotificacionMapper notificacionMapper;
+
     public NotificacionResource(
         NotificacionService notificacionService,
         NotificacionRepository notificacionRepository,
-        NotificacionQueryService notificacionQueryService
+        NotificacionQueryService notificacionQueryService,
+        NotificacionMapper notificacionMapper
     ) {
         this.notificacionService = notificacionService;
         this.notificacionRepository = notificacionRepository;
         this.notificacionQueryService = notificacionQueryService;
+        this.notificacionMapper = notificacionMapper;
     }
 
     /**
@@ -194,5 +201,20 @@ public class NotificacionResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping("/notificacions/read")
+    public ResponseEntity<NotificacionDTO> readNotificacion(@Valid @RequestBody Long id) {
+        Optional<Notificacion> notif = notificacionRepository.findById(id);
+        if (!notif.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        Notificacion notif2 = notif.get();
+        notif2.setStatus(Status.LEIDO);
+        notif2 = notificacionRepository.save(notif2);
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, notif2.getId().toString()))
+            .body(notificacionMapper.toDto(notif2));
     }
 }

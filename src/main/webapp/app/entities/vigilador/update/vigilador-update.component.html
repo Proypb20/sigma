@@ -47,7 +47,9 @@
           <label class="form-label" for="field_user">User</label>
           <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
             <option [ngValue]="null"></option>
-            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.login }}</option>
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">
+              {{ userOption.lastName }}, {{ userOption.firstName }}
+            </option>
           </select>
         </div>
       </div>

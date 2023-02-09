@@ -1,5 +1,6 @@
 package com.sigma.myapp.repository;
 
+import com.sigma.myapp.domain.Objetivo;
 import com.sigma.myapp.domain.Vigilador;
 import java.util.List;
 import java.util.Optional;
@@ -41,4 +42,6 @@ public interface VigiladorRepository extends JpaRepository<Vigilador, Long>, Jpa
         "select vigilador from Vigilador vigilador left join fetch vigilador.categoria left join fetch vigilador.objetivo left join fetch vigilador.user where vigilador.id =:id"
     )
     Optional<Vigilador> findOneWithToOneRelationships(@Param("id") Long id);
+
+    List<Vigilador> findAllByObjetivo(Objetivo objetivo);
 }

@@ -6,13 +6,13 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+        <div class="row mb-3" hidden>
           <label class="form-label" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_name">Name</label>
+          <label class="form-label" for="field_name">Nombre</label>
           <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
           <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> Este campo es obligatorio. </small>
@@ -20,12 +20,12 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_address">Address</label>
+          <label class="form-label" for="field_address">Direccion</label>
           <input type="text" class="form-control" name="address" id="field_address" data-cy="address" formControlName="address" />
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_city">City</label>
+          <label class="form-label" for="field_city">Ciudad</label>
           <input type="text" class="form-control" name="city" id="field_city" data-cy="city" formControlName="city" />
         </div>
       </div>

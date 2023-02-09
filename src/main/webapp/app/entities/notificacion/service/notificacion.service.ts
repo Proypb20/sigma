@@ -47,6 +47,10 @@ export class NotificacionService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+  read(notificacion: INotificacion): Observable<EntityResponseType> {
+    return this.http.post<INotificacion>(`${this.resourceUrl}/reaed`, notificacion, { observe: 'response' });
+  }
+
   getNotificacionIdentifier(notificacion: Pick<INotificacion, 'id'>): number {
     return notificacion.id;
   }
